@@ -58,8 +58,19 @@ UI_FLOAT_TODI(contrast,             "| Contrast",               0.0, 1.0, 0.5)
 UI_FLOAT_TODI(maxWhite,             "| Max White",              0.0, 12.0, 1.0)
 UI_FLOAT_TODI(blackPoint,           "| Black Point",           -1.0, 1.0, 0.0)
 UI_FLOAT_TODI(whitePoint,           "| White Point",            0.0, 100.0, 1.0)
-#ifdef DEBUG_MODE
 UI_WHITESPACE(3)
+UI_FLOAT_DNI(h_BlueShift,           "| Highlights Blueshift",   -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(h_GreenShift,          "| Highlights Greenshift",  -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(h_RedShift,            "| Highlights Redshift",    -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(m_BlueShift,           "| Midtones Blueshift",     -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(m_GreenShift,          "| Midtones Greenshift",    -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(m_RedShift,            "| Midtones Redshift",      -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(s_BlueShift,           "| Shadows Blueshift",      -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(s_GreenShift,          "| Shadows Greenshift",     -1.0, 1.0, 0.0)
+UI_FLOAT_DNI(s_RedShift,            "| Shadows Redshift",       -1.0, 1.0, 0.0)
+
+#ifdef DEBUG_MODE
+UI_WHITESPACE(4)
 UI_MESSAGE(5,                       "|----- Debug -----")
 UI_BOOL(showBloom,                  "| Show Bloom",             false)
 UI_BOOL(showLens,                   "| Show Lens",              false)
@@ -68,6 +79,8 @@ UI_BOOL(showLens,                   "| Show Lens",              false)
 //===========================================================//
 // Functions                                                 //
 //===========================================================//
+
+#include "Include/Shaders/colorBalance.fxh"
 
 // VDR Tonemap by Timothy Lottes
 // Added parts of Frostbyte Style Tonemap since they are kinda similar
@@ -205,6 +218,10 @@ float3	PS_Color(VS_OUTPUT IN) : SV_Target
             color   = pow(color, gamma - rgbGamma + 0.5);           // Gamma
             color   = whiteBalance(color, GetLuma(color, Rec709));  // Whitebalane
             color   = S_Curve(color);                               // Contrast
+            color   = ColorBalance(color, float3(s_RedShift, s_GreenShift, s_BlueShift), 
+                                          float3(m_RedShift, m_GreenShift, m_BlueShift),
+                                          float3(h_RedShift, h_GreenShift, h_BlueShift));
+
             color   = lerp(color, Params01[5].xyz, Params01[5].w);  // Fade effects
 
     return saturate(color + triDither(color, coord, Timer.x, 8));
