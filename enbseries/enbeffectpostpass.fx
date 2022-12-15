@@ -46,6 +46,10 @@ UI_BOOL(enableCAS,                  "| Enable CAS Sharpening",      false)
 UI_FLOAT(casContrast,               "|  Sharpening Contrast",      	0.0, 1.0, 0.0)
 UI_FLOAT(casSharpening,             "|  Sharpening Amount",     	0.0, 1.0, 1.0)
 UI_WHITESPACE(7)
+UI_BOOL(enableCA,                   "| Enable Radial CA",           false)
+UI_FLOAT(RadialCA,                  "|  Aberration Strength",      	0.0, 2.5, 1.0)
+UI_FLOAT(barrelPower,               "|  Aberration Curve",         	0.0, 2.5, 1.0)
+UI_WHITESPACE(8)
 UI_BOOL(enableLut,                  "| Enable Lut",                 false)
 
 int	selectLut
@@ -64,8 +68,7 @@ int	selectLut
 #include "Include/Shaders/filmGrain.fxh"
 #include "Include/Shaders/cas.fxh"
 #include "Include/Shaders/lut.fxh"
-
-
+#include "Include/Shaders/radialCA.fxh"
 //===========================================================//
 // Pixel Shaders                                             //
 //===========================================================//
@@ -93,6 +96,16 @@ float4 PS_PostFX(VS_OUTPUT IN, float4 v0 : SV_Position0) : SV_Target
     return Color;
 }
 
+float3 PS_LensCABlur(VS_OUTPUT IN) : SV_Target
+{
+    return enableCA ? SampleBlurredImage(TextureColor.Sample(LinearSampler, IN.txcoord.xy), IN.txcoord.xy) : TextureColor.Sample(PointSampler, IN.txcoord.xy);
+}
+
+float3 PS_LensCA(VS_OUTPUT IN) : SV_Target
+{
+    return enableCA ? LensCA(IN.txcoord.xy) : TextureColor.Sample(PointSampler, IN.txcoord.xy);
+}
+
 float3 PS_CAS(VS_OUTPUT IN) : SV_Target
 {
 	return enableCAS ? CASsharpening(IN.txcoord.xy) : TextureColor.Sample(PointSampler, IN.txcoord.xy);
@@ -112,6 +125,24 @@ technique11 post <string UIName="Postpass";>
 }
 
 technique11 post1
+{
+    pass p0
+    {
+        SetVertexShader(CompileShader(vs_5_0, VS_Draw()));
+        SetPixelShader (CompileShader(ps_5_0, PS_LensCABlur()));
+    }
+}
+
+technique11 post2
+{
+    pass p0
+    {
+        SetVertexShader(CompileShader(vs_5_0, VS_Draw()));
+        SetPixelShader (CompileShader(ps_5_0, PS_LensCA()));
+    }
+}
+
+technique11 post3
 {
     pass p0
     {
