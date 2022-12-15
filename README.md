@@ -1,4 +1,4 @@
-# Panda-ENB
+# Ebony ENB
 An ENB Preset for Skyrim Special Edition by mechanicalpanda and Adyss  
 Made for vanilla weathers and [Lux](https://www.nexusmods.com/skyrimspecialedition/mods/43158)  
 
