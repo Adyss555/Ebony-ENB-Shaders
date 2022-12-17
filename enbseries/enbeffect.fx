@@ -1,10 +1,23 @@
-// Panda ENB (for now)
+//========================================================//
+//                                                        //
+//      _/_/_/_/  _/                                      //
+//     _/        _/_/_/      _/_/    _/_/_/    _/    _/   //
+//    _/_/_/    _/    _/  _/    _/  _/    _/  _/    _/    //
+//   _/        _/    _/  _/    _/  _/    _/  _/    _/     //
+//  _/_/_/_/  _/_/_/      _/_/    _/    _/    _/_/_/      //
+//                                               _/       //
+//                                          _/_/          //
+//========================================================//
+//     An ENB Preset by MechanicalPanda and Adyss         //
+//========================================================// 
 
 #define DEBUG_MODE
 
-//===========================================================//
-// Textures                                                  //
-//===========================================================//
+#define GRAPHSIZE 512
+
+//========================================================//
+// Textures                                               //
+//========================================================//
 
 // Main Buffers
 Texture2D TextureColor;         // HDR color
@@ -24,18 +37,18 @@ Texture2D RenderTargetR16F;     //R16F 16 bit hdr format with red channel only
 Texture2D RenderTargetR32F;     //R32F 32 bit hdr format with red channel only
 Texture2D RenderTargetRGB32F;   //32 bit hdr format without alpha
 
-//===========================================================//
-// Internals                                                 //
-//===========================================================//
+//========================================================//
+// Internals                                              //
+//========================================================//
 #include "Include/Shared/Globals.fxh"
 #include "Include/Shared/ReforgedUI.fxh"
 #include "Include/Shared/Conversions.fxh"
 #include "Include/Shared/BlendingModes.fxh"
 
-//===========================================================//
-// UI                                                        //
-//===========================================================//
-UI_MESSAGE(1,                       " \x95 Panda ENB \x95 ")
+//========================================================//
+// UI                                                     //
+//========================================================//
+UI_MESSAGE(1,                       " \x95 Ebony ENB \x95 ")
 UI_WHITESPACE(1)
 UI_MESSAGE(3,                   	"|----- Filmic VDR Tonemap -----")
 UI_FLOAT_TODI(uiHdrMax,      	    "| VDR Max White",		    1.0, 50.0, 16.0)
@@ -74,13 +87,15 @@ UI_WHITESPACE(4)
 UI_MESSAGE(5,                       "|----- Debug -----")
 UI_BOOL(showBloom,                  "| Show Bloom",             false)
 UI_BOOL(showLens,                   "| Show Lens",              false)
+UI_BOOL(showGraph,                  "| Show Nighteye Graph",    false)
 #endif
 
-//===========================================================//
-// Functions                                                 //
-//===========================================================//
+//========================================================//
+// Functions                                              //
+//========================================================//
 
 #include "Include/Shaders/colorBalance.fxh"
+#include "Include/Shared/Graphing.fxh"
 
 // VDR Tonemap by Timothy Lottes
 // Added parts of Frostbyte Style Tonemap since they are kinda similar
@@ -191,18 +206,16 @@ float3 whiteBalance(float3 color, float luma)
     return color * luma;
 }
 
-//===========================================================//
-// Pixel Shaders                                             //
-//===========================================================//
-float3	PS_Color(VS_OUTPUT IN) : SV_Target
+//========================================================//
+// Pixel Shaders                                          //
+//========================================================//
+float3	PS_Color(VS_OUTPUT IN, float4 v0 : SV_Position0) : SV_Target
 {
     float2  coord   = IN.txcoord.xy;
     float3  color   = TextureColor.Sample(PointSampler,  coord);
-    float3  bloom   = TextureBloom.SampleLevel(LinearSampler, coord, 0);
+    float3  bloom   = TextureBloom.SampleLevel(LinearSampler, coord, 0) * ENBParams01.x;
     float3  lens    = TextureLens.Sample(LinearSampler, coord);
     float   adapt   = TextureAdaptation.Load(int3(0, 0, 0));
-
-            color  += bloom / (1 + color);
 
             //Debug
     #ifdef DEBUG_MODE
@@ -213,6 +226,7 @@ float3	PS_Color(VS_OUTPUT IN) : SV_Target
             return lens;
      #endif
 
+            color  += bloom / (1 + color);                          // Blend Bloom
             color  *= exp(exposure - (adapt * adapationImpact));    // Exposure
             color   = TimothyTonemapper(color);                     // Tonemap
             color   = pow(color, gamma - rgbGamma + 0.5);           // Gamma
@@ -222,15 +236,17 @@ float3	PS_Color(VS_OUTPUT IN) : SV_Target
                                           float3(m_RedShift, m_GreenShift, m_BlueShift),
                                           float3(h_RedShift, h_GreenShift, h_BlueShift));
 
+    //if((Params01[5].r > 0.46 && Params01[5].r < 0.47) && (Params01[5].b > 0.74 && Params01[5].b < 0.75) && (Params01[5].g > 0.56 && Params01[5].g < 0.57))
+
             color   = lerp(color, Params01[5].xyz, Params01[5].w);  // Fade effects
 
     return saturate(color + triDither(color, coord, Timer.x, 8));
 }
 
-//===========================================================//
-// Techniques                                                //
-//===========================================================//
-technique11 Draw <string UIName="Panda ENB";>
+//========================================================//
+// Techniques                                             //
+//========================================================//
+technique11 Draw <string UIName="Ebony ENB";>
 {
     pass p0
     {

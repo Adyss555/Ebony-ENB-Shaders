@@ -1,8 +1,19 @@
+//========================================================//
+//                                                        //
+//      _/_/_/_/  _/                                      //
+//     _/        _/_/_/      _/_/    _/_/_/    _/    _/   //
+//    _/_/_/    _/    _/  _/    _/  _/    _/  _/    _/    //
+//   _/        _/    _/  _/    _/  _/    _/  _/    _/     //
+//  _/_/_/_/  _/_/_/      _/_/    _/    _/    _/_/_/      //
+//                                               _/       //
+//                                          _/_/          //
+//========================================================//
+//     An ENB Preset by MechanicalPanda and Adyss         //
+//========================================================// 
 
-
-//===========================================================//
-// Textures                                                  //
-//===========================================================//
+//========================================================//
+// Textures                                               //
+//========================================================//
 Texture2D   TextureOriginal;     //color R10B10G10A2 32 bit ldr format
 Texture2D   TextureColor;        //color which is output of previous technique (except when drawed to temporary render target), R10B10G10A2 32 bit ldr format
 Texture2D   TextureDepth;        //scene depth R32F 32 bit hdr format
@@ -16,17 +27,17 @@ Texture2D   RenderTargetRGB32F;  //32 bit hdr format without alpha
 
 Texture2D   lut                 <string ResourceName="Include/Textures/neutral1k.png"; >;
 
-//===========================================================//
-// Internals                                                 //
-//===========================================================//
+//========================================================//
+// Internals                                              //
+//========================================================//
 #include "Include/Shared/Globals.fxh"
 #include "Include/Shared/ReforgedUI.fxh"
 #include "Include/Shared/Conversions.fxh"
 #include "Include/Shared/BlendingModes.fxh"
 
-//===========================================================//
-// UI                                                        //
-//===========================================================//
+//========================================================//
+// UI                                                     //
+//========================================================//
 
 UI_MESSAGE(2,                     	"|----- Camera Effects -----")
 UI_WHITESPACE(2)
@@ -61,17 +72,18 @@ int	selectLut
     int UIMax=3;
 >;
 
-//===========================================================//
-// Functions                                                 //
-//===========================================================//
+//========================================================//
+// Functions                                              //
+//========================================================//
 #include "Include/Shaders/letterbox.fxh"
 #include "Include/Shaders/filmGrain.fxh"
 #include "Include/Shaders/cas.fxh"
 #include "Include/Shaders/lut.fxh"
 #include "Include/Shaders/radialCA.fxh"
-//===========================================================//
-// Pixel Shaders                                             //
-//===========================================================//
+
+//========================================================//
+// Pixel Shaders                                          //
+//========================================================//
 float4 PS_PostFX(VS_OUTPUT IN, float4 v0 : SV_Position0) : SV_Target
 {
     float2 coord    = IN.txcoord.xy;
@@ -111,9 +123,9 @@ float3 PS_CAS(VS_OUTPUT IN) : SV_Target
 	return enableCAS ? CASsharpening(IN.txcoord.xy) : TextureColor.Sample(PointSampler, IN.txcoord.xy);
 }
 
-//===========================================================//
-// Techniques                                                //
-//===========================================================//
+//========================================================//
+// Techniques                                             //
+//========================================================//
 
 technique11 post <string UIName="Postpass";>
 {
