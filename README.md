@@ -1,6 +1,6 @@
 # Ebony ENB
 An ENB Preset for Skyrim Special Edition by mechanicalpanda and Adyss  
-Made for vanilla weathers and [Lux](https://www.nexusmods.com/skyrimspecialedition/mods/43158)  
+Made for [Supreme weathers](https://www.nexusmods.com/skyrimspecialedition/mods/63938), [EVLAS](https://www.nexusmods.com/skyrimspecialedition/mods/63725) and [Lux](https://www.nexusmods.com/skyrimspecialedition/mods/43158)  
 
 ## Installation: 
 1. Download ENB from [Here](http://enbdev.com/download_mod_tesskyrimse.html) and extract the d3d11.dll and d3dcompiler_46e.dll from the WrapperVersion folder to your game root folder  
@@ -11,6 +11,7 @@ Made for vanilla weathers and [Lux](https://www.nexusmods.com/skyrimspecialediti
 ## Credits  
 Sandvich Maker: ReforgedUI  
 MartyMcFly: ADOF  
+Timothy Lottes: VDR Tonemap  
 Prod80: Color Balance  
 martinsh: Film grain  
 kingeric1992: some bits here and there  
