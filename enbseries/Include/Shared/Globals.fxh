@@ -176,14 +176,14 @@ float3 triDither(float3 color, float2 uv, float timer, int BIT_DEPTH)
 
 // Calculates the edges of the supplied texture.
 // Tipp: Multiply the pixelsize to get T H I C C lines.
-struct EdgeData
+struct  EdgeData
 {
     float Mid, Left, Right, Bottom, Top; // Directions
     float Edges;
     float Depths[4];
 };
 
-float2    EdgeOffsets[4] =
+float2  EdgeOffsets[4] =
 {
     float2( 1.0,  0.0), // Right
     float2(-1.0,  0.0), // Left

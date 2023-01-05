@@ -51,7 +51,7 @@ UI_WHITESPACE(5)
 UI_BOOL(enableLetterbox,            "| Enable Letterbox",	    	false)
 UI_FLOAT(hBoxSize,                  "|  Horizontal Size",			-0.5, 0.5, 0.1)
 UI_FLOAT(vBoxSize,                  "|  Vertical Size",          	-0.5, 0.5, 0.0)
-UI_FLOAT3(BoxColor,                 "|  Letterbox Color",         	0.0, 0.0, 0.0)
+UI_FLOAT(boxRotation,               "|  Letterbox Rotation",	    0.0, 6.0, 0.0)
 UI_WHITESPACE(6)
 UI_BOOL(enableCAS,                  "| Enable CAS Sharpening",      false)
 UI_FLOAT(casContrast,               "|  Sharpening Contrast",      	0.0, 1.0, 0.0)
@@ -71,6 +71,8 @@ int	selectLut
     int UIMin=0;
     int UIMax=3;
 >;
+
+UI_FLOAT(test,               "|  Testval",         	0.0, 2.5, 1.0)
 
 //========================================================//
 // Functions                                              //
@@ -97,12 +99,7 @@ float4 PS_PostFX(VS_OUTPUT IN, float4 v0 : SV_Position0) : SV_Target
     if(enableGrain)
     Color.rgb = GrainPass(coord, Color);
 
-    // Vingette
-    if(enableVingette)
-    Color   *= pow(16.0 * coord.x * coord.y * (1.0 - coord.x) * (1.0 - coord.y), vingetteIntesity); // fast and simpel
-
-    //Letterboxes
-    if(enableLetterbox)
+    // Letterbox and vingette
     Color.rgb = applyLetterbox(Color, coord);
 
     return Color;
