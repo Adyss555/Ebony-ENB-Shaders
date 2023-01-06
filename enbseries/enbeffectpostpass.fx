@@ -67,12 +67,13 @@ int	selectLut
 <
     string UIName="|  Select Lut";
     string UIWidget="dropdown";
-    string UIList="Lut1, Lut2, Lut3, Lut4";
+    string UIList="Missing Plugin";
     int UIMin=0;
-    int UIMax=3;
+    int UIMax=7;
 >;
 
-UI_FLOAT(test,               "|  Testval",         	0.0, 2.5, 1.0)
+UI_FLOAT(lutIntensity,              "|  Lut Intensity",         	0.0, 1.0, 0.8)
+
 
 //========================================================//
 // Functions                                              //
@@ -89,20 +90,20 @@ UI_FLOAT(test,               "|  Testval",         	0.0, 2.5, 1.0)
 float4 PS_PostFX(VS_OUTPUT IN, float4 v0 : SV_Position0) : SV_Target
 {
     float2 coord    = IN.txcoord.xy;
-    float4 Color	= TextureColor.Sample(PointSampler, coord);
+    float4 color	= TextureColor.Sample(PointSampler, coord);
 
     // Lut
     if(enableLut)
-    Color.rgb = Lut(Color, lut);
+    color.rgb = lerp(color, Lut(color, lut), lutIntensity);
 
     // Grain
     if(enableGrain)
-    Color.rgb = GrainPass(coord, Color);
+    color.rgb = GrainPass(coord, color);
 
     // Letterbox and vingette
-    Color.rgb = applyLetterbox(Color, coord);
+    color.rgb = applyLetterbox(color, coord);
 
-    return Color;
+    return color;
 }
 
 float3 PS_LensCABlur(VS_OUTPUT IN) : SV_Target

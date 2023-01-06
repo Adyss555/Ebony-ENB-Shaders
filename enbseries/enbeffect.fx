@@ -13,8 +13,6 @@
 
 #define DEBUG_MODE
 
-#define GRAPHSIZE 512
-
 //========================================================//
 // Textures                                               //
 //========================================================//
@@ -91,7 +89,6 @@ UI_WHITESPACE(5)
 UI_MESSAGE(6,                       "|----- Debug -----")
 UI_BOOL(showBloom,                  "| Show Bloom",             false)
 UI_BOOL(showLens,                   "| Show Lens",              false)
-UI_BOOL(showGraph,                  "| Show Nighteye Graph",    false)
 #endif
 
 //========================================================//
