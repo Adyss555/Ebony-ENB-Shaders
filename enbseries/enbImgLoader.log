@@ -1,42 +1,152 @@
-[2022-12-13 20:02:52.393+01:00] [info] enbImgLoader createad by kingeric1992 (Dec.12.2022)
-[2022-12-13 20:02:52.393+01:00] [info] dir D:\SteamLibrary\steamapps\common\Skyrim Special Edition\enbseries\
-[2022-12-13 20:02:52.393+01:00] [info] config path D:\SteamLibrary\steamapps\common\Skyrim Special Edition\enbseries\enbImgLoader.ini
-[2022-12-13 20:02:52.393+01:00] [info] ENB linked.
-[2022-12-13 20:03:03.432+01:00] [info] ENB_PostLoad
-[2022-12-13 20:03:03.432+01:00] [info] ENB_PostLoad
-[2022-12-13 20:03:03.432+01:00] [info] ENB_OnInit
-[2022-12-13 20:03:22.164+01:00] [info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
-[2022-12-13 20:03:22.164+01:00] [info] 
+[2023-01-07 19:10:15.556+01:00][5764][info] enbImgLoader createad by kingeric1992 (Dec.12.2022)
+[2023-01-07 19:10:15.556+01:00][5764][info] dir C:\Steam Games\steamapps\common\Skyrim Special Edition\enbseries\
+[2023-01-07 19:10:15.556+01:00][5764][info] config path C:\Steam Games\steamapps\common\Skyrim Special Edition\enbseries\enbImgLoader.ini
+[2023-01-07 19:10:15.556+01:00][5764][info] ENB linked.
+[2023-01-07 19:10:34.530+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:10:34.530+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:10:34.530+01:00][5764][info] ENB_OnInit
+[2023-01-07 19:11:02.525+01:00][10568][info] ENB_PreReset
+[2023-01-07 19:11:09.710+01:00][10568][info] ENB_PostLoad
+[2023-01-07 19:11:09.710+01:00][10568][info] ENB_PostReset
+[2023-01-07 19:11:09.723+01:00][10568][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:11:09.723+01:00][10568][info] 
     Texture  Name:    [lut]
     Shader   Name:    [ENBEFFECTPOSTPASS.FX]
     Dropdown UIName:  [|  Select Lut]
     Param    UIName:  [|  Select Lut_p]
 
-[2022-12-13 20:03:22.166+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut1.png"
-[2022-12-13 20:03:22.166+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut4.png"
-[2022-12-13 20:03:22.166+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut2.png"
-[2022-12-13 20:03:22.166+01:00] [info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
-[2022-12-13 20:03:44.538+01:00] [info] ENB_PostLoad
-[2022-12-13 20:03:44.553+01:00] [info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
-[2022-12-13 20:03:44.553+01:00] [info] 
+[2023-01-07 19:11:09.727+01:00][10568][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:11:09.728+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:11:09.727+01:00][9356][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:11:09.729+01:00][10568][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:11:09.729+01:00][6628][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:11:09.729+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:11:09.730+01:00][9356][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:11:09.730+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:12:13.833+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:12:13.852+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:12:13.852+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:12:13.852+01:00][5764][info] 
     Texture  Name:    [lut]
     Shader   Name:    [ENBEFFECTPOSTPASS.FX]
     Dropdown UIName:  [|  Select Lut]
     Param    UIName:  [|  Select Lut_p]
 
-[2022-12-13 20:03:44.553+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut2.png"
-[2022-12-13 20:03:44.553+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut1.png"
-[2022-12-13 20:03:44.553+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut4.png"
-[2022-12-13 20:03:44.553+01:00] [info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
-[2022-12-13 20:04:08.331+01:00] [info] ENB_PostLoad
-[2022-12-13 20:04:08.338+01:00] [info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
-[2022-12-13 20:04:08.338+01:00] [info] 
+[2023-01-07 19:12:13.854+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:12:13.854+01:00][9356][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:12:13.855+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:12:13.855+01:00][6628][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:12:13.855+01:00][3608][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:12:13.855+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:12:13.855+01:00][9356][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:12:13.856+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:12:46.502+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:12:46.527+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:12:46.527+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:12:46.527+01:00][5764][info] 
     Texture  Name:    [lut]
     Shader   Name:    [ENBEFFECTPOSTPASS.FX]
     Dropdown UIName:  [|  Select Lut]
     Param    UIName:  [|  Select Lut_p]
 
-[2022-12-13 20:04:08.338+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut1.png"
-[2022-12-13 20:04:08.338+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut2.png"
-[2022-12-13 20:04:08.338+01:00] [info] Image Loaded ( 1024,   32)  ".\enbseries\Include\Textures\Lut4.png"
-[2022-12-13 20:04:08.338+01:00] [info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:12:46.529+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:12:46.529+01:00][9356][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:12:46.529+01:00][3608][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:12:46.529+01:00][6628][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:12:46.529+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:12:46.530+01:00][8828][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:12:46.530+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:12:46.530+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:13:31.040+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:15:04.472+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:15:38.689+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:16:57.438+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:16:57.455+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:16:57.455+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:16:57.455+01:00][5764][info] 
+    Texture  Name:    [lut]
+    Shader   Name:    [ENBEFFECTPOSTPASS.FX]
+    Dropdown UIName:  [|  Select Lut]
+    Param    UIName:  [|  Select Lut_p]
+
+[2023-01-07 19:16:57.457+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:16:57.457+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:16:57.458+01:00][11004][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:16:57.458+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:16:57.458+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:16:57.458+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:16:57.459+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:16:57.459+01:00][11004][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:17:38.207+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:17:38.217+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:17:38.217+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:17:38.218+01:00][5764][info] 
+    Texture  Name:    [lut]
+    Shader   Name:    [ENBEFFECTPOSTPASS.FX]
+    Dropdown UIName:  [|  Select Lut]
+    Param    UIName:  [|  Select Lut_p]
+
+[2023-01-07 19:17:38.219+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:17:38.219+01:00][11004][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:17:38.220+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:17:38.220+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:17:38.220+01:00][11060][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:17:38.221+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:17:38.221+01:00][11004][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:17:38.221+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:17:42.326+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:17:42.336+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:17:42.336+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:17:42.336+01:00][5764][info] 
+    Texture  Name:    [lut]
+    Shader   Name:    [ENBEFFECTPOSTPASS.FX]
+    Dropdown UIName:  [|  Select Lut]
+    Param    UIName:  [|  Select Lut_p]
+
+[2023-01-07 19:17:42.338+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:17:42.338+01:00][11004][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:17:42.338+01:00][11060][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:17:42.338+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:17:42.338+01:00][2480][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:17:42.339+01:00][10068][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:17:42.339+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:17:42.339+01:00][7484][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:18:16.348+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:19:31.329+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:20:41.763+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:23:02.109+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:24:32.757+01:00][5764][info] ENB_PostSave
+[2023-01-07 19:30:21.476+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:30:21.498+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:30:21.498+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:30:21.498+01:00][5764][info] 
+    Texture  Name:    [lut]
+    Shader   Name:    [ENBEFFECTPOSTPASS.FX]
+    Dropdown UIName:  [|  Select Lut]
+    Param    UIName:  [|  Select Lut_p]
+
+[2023-01-07 19:30:21.500+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:30:21.500+01:00][7648][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:30:21.500+01:00][10068][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:30:21.500+01:00][7488][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:30:21.501+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:30:21.501+01:00][10068][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:30:21.502+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
+[2023-01-07 19:30:21.503+01:00][7648][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:34:12.832+01:00][5764][info] ENB_PostLoad
+[2023-01-07 19:34:12.845+01:00][5764][info] Unbind lut:[ENBEFFECTPOSTPASS.FX|  Select Lut]
+[2023-01-07 19:34:12.845+01:00][5764][info] Building [lut/ENBEFFECTPOSTPASS.FX/|  Select Lut]
+[2023-01-07 19:34:12.845+01:00][5764][info] 
+    Texture  Name:    [lut]
+    Shader   Name:    [ENBEFFECTPOSTPASS.FX]
+    Dropdown UIName:  [|  Select Lut]
+    Param    UIName:  [|  Select Lut_p]
+
+[2023-01-07 19:34:12.846+01:00][9032][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut3.png"
+[2023-01-07 19:34:12.846+01:00][7648][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut2.png"
+[2023-01-07 19:34:12.846+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut4.png"
+[2023-01-07 19:34:12.847+01:00][5900][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut5.png"
+[2023-01-07 19:34:12.847+01:00][9032][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut6.png"
+[2023-01-07 19:34:12.848+01:00][7648][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut7.png"
+[2023-01-07 19:34:12.848+01:00][7424][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut8.png"
+[2023-01-07 19:34:12.848+01:00][5764][info] Image Loaded ( 1024,   32)A ".\enbseries\Include\Textures\Lut1.png"
