@@ -176,14 +176,14 @@ float3 triDither(float3 color, float2 uv, float timer, int BIT_DEPTH)
 
 // Calculates the edges of the supplied texture.
 // Tipp: Multiply the pixelsize to get T H I C C lines.
-struct  EdgeData
+struct EdgeData
 {
     float Mid, Left, Right, Bottom, Top; // Directions
     float Edges;
     float Depths[4];
 };
 
-float2  EdgeOffsets[4] =
+float2    EdgeOffsets[4] =
 {
     float2( 1.0,  0.0), // Right
     float2(-1.0,  0.0), // Left
@@ -208,4 +208,42 @@ float getEdges(Texture2D InputTex, float2 coord, float2 Pixelsize)
     Edge.Edges   = Edge.Right + Edge.Left + Edge.Bottom + Edge.Top;
 
     return Edge.Edges;
+}
+
+
+
+///+++++++++++++++++++++++++++++++++++++++++///
+/// -- TIME AND PLACE SEPERATION FACTORS -- ///
+
+/// Values for controlling weather location, assigned to be dungeon specific interior cells
+float WthrLocMin = 493.0;     /// First weatherlist.ini record to search from
+float WthrLocMax = 499.0;    /// Last weatherlist.ini record to search to
+
+
+/// Dungeon factor
+float InteriorFactor() {
+/// Similar to EInteriorFactor, but with a helper to remove the variable when DungeonFactor() is in use.
+
+/// Implementation example;
+///   float fBrightness = lerp(Exterior, Interior, InteriorFactor())
+///   color.xyz *= fBrightness;
+
+    float valIntHack=0;
+    if (EInteriorFactor == 1.0 && Weather.x <= WthrLocMin-1.0) valIntHack=1;  /// Interior, to exclude any weatherlist.ini settings to remove possibility of x2 value being used.
+
+  return valIntHack;
+}
+
+/// Dungeon factor
+float DungeonFactor() {
+/// Similar to EInteriorFactor, but using ENBSeries Location ID and Weather systems
+
+/// Implementation example;
+///   float fBrightness = lerp(InteriorExterior, Dungeon, DungeonFactor())
+///   color.xyz *= fBrightness;
+
+    float valDunHack=0;
+    if (Weather.x >= WthrLocMin && Weather.x <= WthrLocMax) valDunHack=1;  /// Dungeon, weatherlist.ini values to use
+
+  return valDunHack;
 }

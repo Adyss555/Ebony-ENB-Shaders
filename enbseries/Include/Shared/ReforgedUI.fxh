@@ -12,8 +12,10 @@
 // ----------------------------------------------------------------------------------------------------------
 
 
+
 #ifndef REFORGED_UI_H
 #define REFORGED_UI_H
+
 
 
 // ----------------------------------------------------------------------------------------------------------
@@ -22,6 +24,7 @@
 #define TO_STRING(x) #x
 #define MERGE(a, b) a##b
 #define COMBINE(a, b) a##_##b
+
 
 
 // ----------------------------------------------------------------------------------------------------------
@@ -111,9 +114,12 @@
 
 // I kinda can't be arsed to make proper selecters for these because you shouldn't use them anyway, they're
 // just there to make stuff not break (they will work, they'll just floor instead of round)
+#define SELECT_EID(var) LERP_EID(var)
 #define SELECT_TOD(var) LERP_TOD(var)
 #define SELECT_TOD_I(var) LERP_TOD_I(var)
+#define SELECT_TOD_ID(var) LERP_TOD_ID(var)
 #define SELECT_TODE_DNI(var) LERP_TODE_DNI(var)
+#define SELECT_TODE_DNI_DND(var) LERP_TODE_DNI_DND(var)
 #define SELECT_TODE_TODI(var) LERP_TODE_TODI(var)
 
 
@@ -122,6 +128,7 @@
 // LERPERS
 // ----------------------------------------------------------------------------------------------------------
 #define LERP_EI(var) SELECT_EI(var)
+#define LERP_EID(var) var = lerp(lerp(var##Exterior, var##Interior, InteriorFactor()), var##Dungeon, DungeonFactor());
 #define LERP_DN(var) var = lerp(var##Night, var##Day, ENightDayFactor);
 #define LERP_DN_I(var) var = (EInteriorFactor == 1.0 ? var##Interior : lerp(var##Night, var##Day, ENightDayFactor));
 
@@ -146,9 +153,31 @@
         var##Dusk    * TimeOfDay2.x + \
         var##Night   * TimeOfDay2.y;
 
+#define LERP_TOD_ID(var) var = \
+    InteriorFactor() ? var##Interior : \
+    DungeonFactor() ? var##Dungeon : \
+        var##Dawn    * TimeOfDay1.x + \
+        var##Sunrise * TimeOfDay1.y + \
+        var##Day     * TimeOfDay1.z + \
+        var##Sunset  * TimeOfDay1.w + \
+        var##Dusk    * TimeOfDay2.x + \
+        var##Night   * TimeOfDay2.y;
+
 #define LERP_TODE_DNI(var) var = \
     EInteriorFactor == 1.0 ? \
         lerp(var##InteriorNight, var##InteriorDay, ENightDayFactor) : \
+        var##ExteriorDawn    * TimeOfDay1.x + \
+        var##ExteriorSunrise * TimeOfDay1.y + \
+        var##ExteriorDay     * TimeOfDay1.z + \
+        var##ExteriorSunset  * TimeOfDay1.w + \
+        var##ExteriorDusk    * TimeOfDay2.x + \
+        var##ExteriorNight   * TimeOfDay2.y;
+
+#define LERP_TODE_DNI_DND(var) var = \
+    InteriorFactor() ? \
+        lerp(var##InteriorNight, var##InteriorDay, ENightDayFactor) : \
+    DungeonFactor() ? \
+        lerp(var##DungeonNight, var##DungeonDay, ENightDayFactor) : \
         var##ExteriorDawn    * TimeOfDay1.x + \
         var##ExteriorSunrise * TimeOfDay1.y + \
         var##ExteriorDay     * TimeOfDay1.z + \
@@ -228,6 +257,17 @@
     __GET_INTERPOLATOR(static const type, lerpstyle, EI, var)
 
 
+#define TEMPLATE__EI(macro, var, name, arg1, arg2, arg3, arg4) \
+    PROTOTYPE__UI_##macro(var##Exterior, name##" (Exterior)", arg1, arg2, arg3, arg4) \
+    PROTOTYPE__UI_##macro(var##Interior, name##" (Interior)", arg1, arg2, arg3, arg4)
+
+
+#define ARCHETYPE__EID(macro, type, lerpstyle, var, name, arg1, arg2, arg3, arg4) \
+    TEMPLATE__EI(macro, var, name, arg1, arg2, arg3, arg4) \
+    PROTOTYPE__UI_##macro(var##Dungeon, name##" (Dungeon)", arg1, arg2, arg3, arg4) \
+    __GET_INTERPOLATOR(static const type, lerpstyle, EID, var)
+
+
 #define TEMPLATE__DN(macro, var, name, arg1, arg2, arg3, arg4) \
     PROTOTYPE__UI_##macro(var##Day, name##" (Day)", arg1, arg2, arg3, arg4) \
     PROTOTYPE__UI_##macro(var##Night, name##" (Night)", arg1, arg2, arg3, arg4)
@@ -267,15 +307,20 @@
     TEMPLATE__TOD(macro, var, name, arg1, arg2, arg3, arg4) \
     __GET_INTERPOLATOR(static const type, lerpstyle, TOD, var)
 
-
 #define ARCHETYPE__TOD_I(macro, type, lerpstyle, var, name, arg1, arg2, arg3, arg4) \
     TEMPLATE__TOD(macro, var, name, arg1, arg2, arg3, arg4) \
     PROTOTYPE__UI_##macro(var##Interior, name##" (Interior)", arg1, arg2, arg3, arg4) \
     __GET_INTERPOLATOR(static const type, lerpstyle, TOD_I, var)
 
+#define ARCHETYPE__TOD_ID(macro, type, lerpstyle, var, name, arg1, arg2, arg3, arg4) \
+    TEMPLATE__TOD(macro, var, name, arg1, arg2, arg3, arg4) \
+    PROTOTYPE__UI_##macro(var##Interior, name##" (Interior)", arg1, arg2, arg3, arg4) \
+    PROTOTYPE__UI_##macro(var##Dungeon, name##" (Dungeon)", arg1, arg2, arg3, arg4) \
+    __GET_INTERPOLATOR(static const type, lerpstyle, TOD_ID, var)
 
 // Alias because this is more familiar syntax
 #define ARCHETYPE__TODI ARCHETYPE__TOD_I
+#define ARCHETYPE__TODID ARCHETYPE__TOD_ID
 
 
 #define ARCHETYPE__TODE_DNI(macro, type, lerpstyle, var, name, arg1, arg2, arg3, arg4) \
@@ -283,6 +328,11 @@
     TEMPLATE__DN(macro, var##Interior, name##" (Interior)", arg1, arg2, arg3, arg4) \
     __GET_INTERPOLATOR(static const type, lerpstyle, TODE_DNI, var)
 
+#define ARCHETYPE__TODE_DNI_DND(macro, type, lerpstyle, var, name, arg1, arg2, arg3, arg4) \
+    TEMPLATE__TOD(macro, var##Exterior, name##" (Exterior)", arg1, arg2, arg3, arg4) \
+    TEMPLATE__DN(macro, var##Interior, name##" (Interior)", arg1, arg2, arg3, arg4) \
+    TEMPLATE__DN(macro, var##Dungeon, name##" (Dungeon)", arg1, arg2, arg3, arg4) \
+    __GET_INTERPOLATOR(static const type, lerpstyle, TODE_DNI_DND, var)
 
 #define ARCHETYPE__TODE_TODI(macro, type, lerpstyle, var, name, arg1, arg2, arg3, arg4) \
     TEMPLATE__TOD(macro, var##Exterior, name##" (Exterior)", arg1, arg2, arg3, arg4) \
@@ -307,12 +357,16 @@
 #define UI_BOOL(var, name, def) UI_BOOL_MULTI(SINGLE, var, name, def)
 #define UI_BOOL_SINGLE(var, name, def) UI_BOOL_MULTI(SINGLE, var, name, def)
 #define UI_BOOL_EI(var, name, def) UI_BOOL_MULTI(EI, var, name, def)
+#define UI_BOOL_EID(var, name, def) UI_BOOL_MULTI(EID, var, name, def)
 #define UI_BOOL_DNI(var, name, def) UI_BOOL_MULTI(DNI, var, name, def)
 #define UI_BOOL_DN_I(var, name, def) UI_BOOL_MULTI(DN_I, var, name, def)
 #define UI_BOOL_DNE_DNI(var, name, def) UI_BOOL_MULTI(DNE_DNI, var, name, def)
 #define UI_BOOL_TODI(var, name, def) UI_BOOL_MULTI(TODI, var, name, def)
 #define UI_BOOL_TOD_I(var, name, def) UI_BOOL_MULTI(TOD_I, var, name, def)
+#define UI_BOOL_TODID(var, name, def) UI_BOOL_MULTI(TODID, var, name, def)
+#define UI_BOOL_TOD_ID(var, name, def) UI_BOOL_MULTI(TOD_ID, var, name, def)
 #define UI_BOOL_TODE_DNI(var, name, def) UI_BOOL_MULTI(TODE_DNI, var, name, def)
+#define UI_BOOL_TODE_DNI_DND(var, name, def) UI_BOOL_MULTI(TODE_DNI_DND, var, name, def)
 #define UI_BOOL_TODE_TODI(var, name, def) UI_BOOL_MULTI(TODE_TODI, var, name, def)
 
 
@@ -335,12 +389,16 @@
 #define UI_QUALITY(var, name, minval, maxval, defval) UI_QUALITY_MULTI(SINGLE, var, name, minval, maxval, defval)
 #define UI_QUALITY_SINGLE(var, name, minval, maxval, defval) UI_QUALITY_MULTI(SINGLE, var, name, minval, maxval, defval)
 #define UI_QUALITY_EI(var, name, minval, maxval, defval) UI_QUALITY_MULTI(EI, var, name, minval, maxval, defval)
+#define UI_QUALITY_EID(var, name, minval, maxval, defval) UI_QUALITY_MULTI(EID, var, name, minval, maxval, defval)
 #define UI_QUALITY_DNI(var, name, minval, maxval, defval) UI_QUALITY_MULTI(DNI, var, name, minval, maxval, defval)
 #define UI_QUALITY_DN_I(var, name, minval, maxval, defval) UI_QUALITY_MULTI(DN_I, var, name, minval, maxval, defval)
 #define UI_QUALITY_DNE_DNI(var, name, minval, maxval, defval) UI_QUALITY_MULTI(DNE_DNI, var, name, minval, maxval, defval)
 #define UI_QUALITY_TODI(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TODI, var, name, minval, maxval, defval)
 #define UI_QUALITY_TOD_I(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TOD_I, var, name, minval, maxval, defval)
+#define UI_QUALITY_TODID(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TODID, var, name, minval, maxval, defval)
+#define UI_QUALITY_TOD_ID(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TOD_ID, var, name, minval, maxval, defval)
 #define UI_QUALITY_TODE_DNI(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TODE_DNI, var, name, minval, maxval, defval)
+#define UI_QUALITY_TODE_DNI_DND(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TODE_DNI_DND, var, name, minval, maxval, defval)
 #define UI_QUALITY_TODE_TODI(var, name, minval, maxval, defval) UI_QUALITY_MULTI(TODE_TODI, var, name, minval, maxval, defval)
 
 
@@ -363,12 +421,16 @@
 #define UI_INT(var, name, minval, maxval, defval) UI_INT_MULTI(SINGLE, var, name, minval, maxval, defval)
 #define UI_INT_SINGLE(var, name, minval, maxval, defval) UI_INT_MULTI(SINGLE, var, name, minval, maxval, defval)
 #define UI_INT_EI(var, name, minval, maxval, defval) UI_INT_MULTI(EI, var, name, minval, maxval, defval)
+#define UI_INT_EID(var, name, minval, maxval, defval) UI_INT_MULTI(EID, var, name, minval, maxval, defval)
 #define UI_INT_DNI(var, name, minval, maxval, defval) UI_INT_MULTI(DNI, var, name, minval, maxval, defval)
 #define UI_INT_DN_I(var, name, minval, maxval, defval) UI_INT_MULTI(DN_I, var, name, minval, maxval, defval)
 #define UI_INT_DNE_DNI(var, name, minval, maxval, defval) UI_INT_MULTI(DNE_DNI, var, name, minval, maxval, defval)
 #define UI_INT_TODI(var, name, minval, maxval, defval) UI_INT_MULTI(TODI, var, name, minval, maxval, defval)
 #define UI_INT_TOD_I(var, name, minval, maxval, defval) UI_INT_MULTI(TOD_I, var, name, minval, maxval, defval)
+#define UI_INT_TODID(var, name, minval, maxval, defval) UI_INT_MULTI(TODID, var, name, minval, maxval, defval)
+#define UI_INT_TOD_ID(var, name, minval, maxval, defval) UI_INT_MULTI(TOD_ID, var, name, minval, maxval, defval)
 #define UI_INT_TODE_DNI(var, name, minval, maxval, defval) UI_INT_MULTI(TODE_DNI, var, name, minval, maxval, defval)
+#define UI_INT_TODE_DNI_DND(var, name, minval, maxval, defval) UI_INT_MULTI(TODE_DNI_DND, var, name, minval, maxval, defval)
 #define UI_INT_TODE_TODI(var, name, minval, maxval, defval) UI_INT_MULTI(TODE_TODI, var, name, minval, maxval, defval)
 
 
@@ -394,24 +456,31 @@
 #define UI_FLOAT(var, name, minval, maxval, defval) UI_FLOAT_MULTI(SINGLE, var, name, minval, maxval, defval)
 #define UI_FLOAT_SINGLE(var, name, minval, maxval, defval) UI_FLOAT_MULTI(SINGLE, var, name, minval, maxval, defval)
 #define UI_FLOAT_EI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(EI, var, name, minval, maxval, defval)
-#define UI_FLOAT_DN(var, name, minval, maxval, defval) UI_FLOAT_MULTI(DN, var, name, minval, maxval, defval)
+#define UI_FLOAT_EID(var, name, minval, maxval, defval) UI_FLOAT_MULTI(EID, var, name, minval, maxval, defval)
 #define UI_FLOAT_DNI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(DNI, var, name, minval, maxval, defval)
 #define UI_FLOAT_DN_I(var, name, minval, maxval, defval) UI_FLOAT_MULTI(DN_I, var, name, minval, maxval, defval)
 #define UI_FLOAT_DNE_DNI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(DNE_DNI, var, name, minval, maxval, defval)
 #define UI_FLOAT_TODI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODI, var, name, minval, maxval, defval)
 #define UI_FLOAT_TOD_I(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TOD_I, var, name, minval, maxval, defval)
-#define UI_FLOAT_DNI_DNI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODE_DNI, var, name, minval, maxval, defval)
-#define UI_FLOAT_DNI_TODI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODE_TODI, var, name, minval, maxval, defval)
+#define UI_FLOAT_TODID(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODID, var, name, minval, maxval, defval)
+#define UI_FLOAT_TOD_ID(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TOD_ID, var, name, minval, maxval, defval)
+#define UI_FLOAT_TODE_DNI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODE_DNI, var, name, minval, maxval, defval)
+#define UI_FLOAT_TODE_DNI_DND(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODE_DNI_DND, var, name, minval, maxval, defval)
+#define UI_FLOAT_TODE_TODI(var, name, minval, maxval, defval) UI_FLOAT_MULTI(TODE_TODI, var, name, minval, maxval, defval)
 
 #define UI_FLOAT_FINE(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(SINGLE, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_SINGLE(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(SINGLE, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_EI(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(EI, var, name, minval, maxval, defval, step)
+#define UI_FLOAT_FINE_EID(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(EID, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_DNI(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(DNI, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_DN_I(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(DN_I, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_DNE_DNI(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(DNE_DNI, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_TODI(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TODI, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_TOD_I(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TOD_I, var, name, minval, maxval, defval, step)
+#define UI_FLOAT_FINE_TODID(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TODID, var, name, minval, maxval, defval, step)
+#define UI_FLOAT_FINE_TOD_ID(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TOD_ID, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_TODE_DNI(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TODE_DNI, var, name, minval, maxval, defval, step)
+#define UI_FLOAT_FINE_TODE_DNI_DND(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TODE_DNI_DND, var, name, minval, maxval, defval, step)
 #define UI_FLOAT_FINE_TODE_TODI(var, name, minval, maxval, defval, step) UI_FLOAT_FINE_MULTI(TODE_TODI, var, name, minval, maxval, defval, step)
 
 
@@ -432,13 +501,16 @@
 #define UI_FLOAT3(var, name, defval1, defval2, defval3) UI_FLOAT3_MULTI(SINGLE, var, name, defval1, defval2, defval3)
 #define UI_FLOAT3_SINGLE(var, name, defval1, defval2, defval3) UI_FLOAT3_MULTI(SINGLE, var, name, defval1, defval2, defval3)
 #define UI_FLOAT3_EI(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(EI, var, name, arg1, arg2, arg3)
-#define UI_FLOAT3_DN(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(DN, var, name, arg1, arg2, arg3)
+#define UI_FLOAT3_EID(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(EID, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_DNI(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(DNI, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_DN_I(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(DN_I, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_DNE_DNI(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(DNE_DNI, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_TODI(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TODI, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_TOD_I(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TOD_I, var, name, arg1, arg2, arg3)
+#define UI_FLOAT3_TODID(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TODID, var, name, arg1, arg2, arg3)
+#define UI_FLOAT3_TOD_ID(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TOD_ID, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_TODE_DNI(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TODE_DNI, var, name, arg1, arg2, arg3)
+#define UI_FLOAT3_TODE_DNI_DND(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TODE_DNI_DND, var, name, arg1, arg2, arg3)
 #define UI_FLOAT3_TODE_TODI(var, name, arg1, arg2, arg3) UI_FLOAT3_MULTI(TODE_TODI, var, name, arg1, arg2, arg3)
 
 
@@ -459,12 +531,16 @@
 #define UI_FLOAT4(var, name, def1, def2, def3, def4) UI_FLOAT4_MULTI(SINGLE, var, name, def1, def2, def3, def4)
 #define UI_FLOAT4_SINGLE(var, name, def1, def2, def3, def4) UI_FLOAT4_MULTI(SINGLE, var, name, def1, def2, def3, def4)
 #define UI_FLOAT4_EI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(EI, var, name, arg1, arg2, arg3, arg4)
+#define UI_FLOAT4_EID(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(EID, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_DNI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(DNI, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_DN_I(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(DN_I, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_DNE_DNI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(DNE_DNI, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_TODI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TODI, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_TOD_I(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TOD_I, var, name, arg1, arg2, arg3, arg4)
+#define UI_FLOAT4_TODID(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TODID, var, name, arg1, arg2, arg3, arg4)
+#define UI_FLOAT4_TOD_ID(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TOD_ID, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_TODE_DNI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TODE_DNI, var, name, arg1, arg2, arg3, arg4)
+#define UI_FLOAT4_TODE_DNI_DND(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TODE_DNI_DND, var, name, arg1, arg2, arg3, arg4)
 #define UI_FLOAT4_TODE_TODI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TODE_TODI, var, name, arg1, arg2, arg3, arg4)
 
 
