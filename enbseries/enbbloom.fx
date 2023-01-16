@@ -145,7 +145,7 @@ float3  PS_BlurH(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float texsize
     {
         float weight = getWeight(x);
         kernelSum   += weight;
-        color       += InputTex.Sample(LinearSampler, IN.txcoord.xy + float2(pixelSize.x * x, 0.0)) * weight;
+        color       += InputTex.Sample(MirrorSampler, IN.txcoord.xy + float2(pixelSize.x * x, 0.0)) * weight;
     }
     return color / kernelSum;
 }
@@ -163,7 +163,7 @@ float3  PS_BlurV(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float texsize
     {
         float weight = getWeight(y);
         kernelSum   += weight;
-        color       += InputTex.Sample(LinearSampler, IN.txcoord.xy + float2(0.0, pixelSize.y * y)) * weight;
+        color       += InputTex.Sample(MirrorSampler, IN.txcoord.xy + float2(0.0, pixelSize.y * y)) * weight;
     }
     return color / kernelSum;
 }
@@ -241,7 +241,7 @@ float3  PS_Downsample(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float te
     for( int i = 0; i < 13; i++ )
     {
         float2 currentUV = IN.txcoord.xy + coords[i] * getPixelSize(texsize) * softRadius;
-        color += weights[i] * InputTex.Sample(LinearSampler, currentUV);
+        color += weights[i] * InputTex.Sample(BorderSampler, currentUV);
     }
 
     return color; 

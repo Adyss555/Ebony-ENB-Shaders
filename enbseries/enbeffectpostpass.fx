@@ -25,7 +25,8 @@ Texture2D   RenderTargetR16F;    //R16F 16 bit hdr format with red channel only
 Texture2D   RenderTargetR32F;    //R32F 32 bit hdr format with red channel only
 Texture2D   RenderTargetRGB32F;  //32 bit hdr format without alpha
 
-Texture2D   lut                 <string ResourceName="Include/Textures/neutral1k.png"; >;
+// This tex will be replaced by the ENB plugin
+Texture2D   lut     <string ResourceName="Include/Textures/neutral1k.png"; >;
 
 //========================================================//
 // Internals                                              //
@@ -40,39 +41,30 @@ Texture2D   lut                 <string ResourceName="Include/Textures/neutral1k
 //========================================================//
 
 UI_MESSAGE(2,                     	"|----- Camera Effects -----")
-UI_WHITESPACE(2)
-UI_BOOL(enableVingette,             "| Enable Vingette",          	false)
-UI_FLOAT(vingetteIntesity,          "|  Vingette Intesity",        	0.0, 1.0, 0.1)
-UI_WHITESPACE(3)
+UI_WHITESPACE(1)
 UI_BOOL(enableGrain,                "| Enable Grain",             	false)
 UI_INT(grainAmount,                 "|  Grain Amount",            	0, 100, 50)
 UI_INT(grainRoughness,              "|  Grain Roughness",          	1, 3, 1)
-UI_WHITESPACE(5)
+UI_WHITESPACE(2)
 UI_BOOL(enableLetterbox,            "| Enable Letterbox",	    	false)
 UI_FLOAT(hBoxSize,                  "|  Horizontal Size",			-0.5, 0.5, 0.1)
 UI_FLOAT(vBoxSize,                  "|  Vertical Size",          	-0.5, 0.5, 0.0)
 UI_FLOAT(boxRotation,               "|  Letterbox Rotation",	    0.0, 6.0, 0.0)
-UI_WHITESPACE(6)
+UI_WHITESPACE(3)
+UI_BOOL(enableVingette,             "| Enable Vingette",          	false)
+UI_FLOAT(vingetteIntesity,          "|  Vingette Intesity",        	0.0, 1.0, 0.1)
+UI_WHITESPACE(4)
 UI_BOOL(enableCAS,                  "| Enable CAS Sharpening",      false)
 UI_FLOAT(casContrast,               "|  Sharpening Contrast",      	0.0, 1.0, 0.0)
 UI_FLOAT(casSharpening,             "|  Sharpening Amount",     	0.0, 1.0, 1.0)
-UI_WHITESPACE(7)
+UI_WHITESPACE(5)
 UI_BOOL(enableCA,                   "| Enable Radial CA",           false)
 UI_FLOAT(RadialCA,                  "|  Aberration Strength",      	0.0, 2.5, 1.0)
 UI_FLOAT(barrelPower,               "|  Aberration Curve",         	0.0, 2.5, 1.0)
-UI_WHITESPACE(8)
+UI_WHITESPACE(6)
 UI_BOOL(enableLut,                  "| Enable Lut",                 false)
-
-int	selectLut
-<
-    string UIName="|  Select Lut";
-    string UIWidget="dropdown";
-    string UIList="Missing Plugin";
-    int UIMin=0;
-    int UIMax=7;
->;
-
-UI_FLOAT(lutIntensity,              "|  Lut Intensity",         	0.0, 1.0, 0.8)
+UI_DROPDOWN(selectLut,              "|  Select Lut",                0, 7, 0)
+UI_FLOAT(lutIntensity,              "|  Lut Intensity",         	0.0, 1.0, 0.5)
 
 
 //========================================================//

@@ -544,6 +544,20 @@
 #define UI_FLOAT4_TODE_TODI(var, name, arg1, arg2, arg3, arg4) UI_FLOAT4_MULTI(TODE_TODI, var, name, arg1, arg2, arg3, arg4)
 
 
+// ----------------------------------------------------------------------------------------------------------
+// Dropdown. Mostly here for use with kingerics plugin
+// ----------------------------------------------------------------------------------------------------------
+#define UI_DROPDOWN(var, name, minval, maxval, defval) \
+    float var \
+    < \
+        string UIName = name; \
+        string UIWidget = "dropdown"; \
+        string UIList="Missing Plugin"; \
+        int UIMin = minval; \
+        int UIMax = maxval; \
+    > = {defval};
+
+
 
 // ----------------------------------------------------------------------------------------------------------
 // WHITESPACE COLLECTION (my pride and joy)

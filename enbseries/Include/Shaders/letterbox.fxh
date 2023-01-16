@@ -1,7 +1,9 @@
-
+// Letterbox/Vingette Shader by Adyss
 
 float3 applyLetterbox(float3 color, float2 coord)
 {
+	float2 oriCoord = coord;
+
 	if (boxRotation > 0.0)
 	{
 	float 	 rotSin 		= sin(boxRotation);
@@ -21,7 +23,7 @@ float3 applyLetterbox(float3 color, float2 coord)
 		coord.y = smoothstep(hBoxSize, 1 - hBoxSize, coord.y);
 	}
 
-	if(!enableVingette)
+	if(!enableVingette) // Fallback to old system
 	{
 		if((coord.x == 0.0 || coord.x == 1.0) && enableLetterbox)
 		{
