@@ -1,6 +1,6 @@
 # Ebony ENB
 An ENB Preset for Skyrim Special Edition by mechanicalpanda and Adyss  
-Made for [EVLAS](https://www.nexusmods.com/skyrimspecialedition/mods/63725), [Mists of Tamriel] (https://www.nexusmods.com/skyrimspecialedition/mods/78703) and [Lux](https://www.nexusmods.com/skyrimspecialedition/mods/43158)  
+Made for [EVLAS](https://www.nexusmods.com/skyrimspecialedition/mods/63725), [Mists of Tamriel](https://www.nexusmods.com/skyrimspecialedition/mods/78703) and [Lux](https://www.nexusmods.com/skyrimspecialedition/mods/43158)  
 
 ## Installation: 
 1. Download ENB from [Here](http://enbdev.com/download_mod_tesskyrimse.html) and extract the d3d11.dll and d3dcompiler_46e.dll from the WrapperVersion folder to your game root folder  
