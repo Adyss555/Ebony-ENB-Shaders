@@ -2,8 +2,6 @@
 
 float3 applyLetterbox(float3 color, float2 coord)
 {
-	float2 oriCoord = coord;
-
 	if (boxRotation > 0.0)
 	{
 	float 	 rotSin 		= sin(boxRotation);

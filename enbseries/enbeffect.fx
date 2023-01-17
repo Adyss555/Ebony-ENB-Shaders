@@ -13,8 +13,6 @@
 
 #define DEBUG_MODE
 
-#define GRAPHSIZE 512
-
 //========================================================//
 // Textures                                               //
 //========================================================//
@@ -81,12 +79,16 @@ UI_FLOAT_DNI(m_RedShift,            "| Midtones Redshift",      -1.0, 1.0, 0.0)
 UI_FLOAT_DNI(s_BlueShift,           "| Shadows Blueshift",      -1.0, 1.0, 0.0)
 UI_FLOAT_DNI(s_GreenShift,          "| Shadows Greenshift",     -1.0, 1.0, 0.0)
 UI_FLOAT_DNI(s_RedShift,            "| Shadows Redshift",       -1.0, 1.0, 0.0)
-#ifdef DEBUG_MODE
 UI_WHITESPACE(4)
-UI_MESSAGE(5,                       "|----- Debug -----")
+UI_MESSAGE(5,                       "|----- Nighteye -----")
+UI_FLOAT(neBrightness,              "| Nighteye Brightness",    0.0, 8.0, 1.0)
+UI_FLOAT(neGamma,                   "| Nighteye Gamma",         0.0, 3.0, 1.0)
+UI_FLOAT(neContrast,                "| Nighteye Contrast",      0.0, 2.5, 1.0)
+#ifdef DEBUG_MODE
+UI_WHITESPACE(5)
+UI_MESSAGE(6,                       "|----- Debug -----")
 UI_BOOL(showBloom,                  "| Show Bloom",             false)
 UI_BOOL(showLens,                   "| Show Lens",              false)
-UI_BOOL(showGraph,                  "| Show Nighteye Graph",    false)
 #endif
 
 //========================================================//
@@ -235,9 +237,17 @@ float3	PS_Color(VS_OUTPUT IN, float4 v0 : SV_Position0) : SV_Target
                                           float3(m_RedShift, m_GreenShift, m_BlueShift),
                                           float3(h_RedShift, h_GreenShift, h_BlueShift));
 
-    //if((Params01[5].r > 0.46 && Params01[5].r < 0.47) && (Params01[5].b > 0.74 && Params01[5].b < 0.75) && (Params01[5].g > 0.56 && Params01[5].g < 0.57))
+            // Fade effects
+            color   = lerp(color, Params01[5].xyz, Params01[5].w);  
 
-            color   = lerp(color, Params01[5].xyz, Params01[5].w);  // Fade effects
+    	    // Nighteye
+            if((Params01[5].r > 0.46 && Params01[5].r < 0.47) && (Params01[5].b > 0.74 && Params01[5].b < 0.75) && (Params01[5].g > 0.56 && Params01[5].g < 0.57))
+            {
+                float3 neColor  = color * neBrightness;
+                       neColor  = pow(neColor, neGamma);
+                       neColor  = (neColor - 0.5) * neContrast + 0.5;
+                       color    = lerp(color, neColor, Params01[5].w * 2.0); // ne intensity sucks... so 2x
+            }
 
     return saturate(color + triDither(color, coord, Timer.x, 8));
 }

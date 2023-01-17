@@ -545,18 +545,17 @@
 
 
 // ----------------------------------------------------------------------------------------------------------
-// Dropdown. Mostly here for use with kingerics plugin
+// Texture Selector. For use with kingerics plugin: https://www.patreon.com/posts/enbimgloader-dec-75813468
 // ----------------------------------------------------------------------------------------------------------
-#define UI_DROPDOWN(var, name, minval, maxval, defval) \
+#define UI_TEX(var, name) \
     float var \
     < \
         string UIName = name; \
         string UIWidget = "dropdown"; \
         string UIList="Missing Plugin"; \
-        int UIMin = minval; \
-        int UIMax = maxval; \
-    > = {defval};
-
+        int UIMin = 0; \
+        int UIMax = 1; \
+    > ;
 
 
 // ----------------------------------------------------------------------------------------------------------

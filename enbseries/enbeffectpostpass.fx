@@ -63,7 +63,7 @@ UI_FLOAT(RadialCA,                  "|  Aberration Strength",      	0.0, 2.5, 1.
 UI_FLOAT(barrelPower,               "|  Aberration Curve",         	0.0, 2.5, 1.0)
 UI_WHITESPACE(6)
 UI_BOOL(enableLut,                  "| Enable Lut",                 false)
-UI_DROPDOWN(selectLut,              "|  Select Lut",                0, 7, 0)
+UI_TEX(selectLut,                   "|  Select Lut")
 UI_FLOAT(lutIntensity,              "|  Lut Intensity",         	0.0, 1.0, 0.5)
 
 
