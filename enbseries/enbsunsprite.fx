@@ -23,8 +23,16 @@ float4    LightParameters;
 //==================================================//
 
 #define UI_PREFIX_MODE PREFIX
-#define UI_CATEGORY Globals
-UI_FLOAT(GlobalIntensity,     "Glare Intensity",                  0.0, 5.0, 0.5)
+#define UI_CATEGORY Weathers
+UI_SEPARATOR
+UI_FLOAT(clearIntensity,     "Clear Glare Intensity",           0.0, 5.0, 0.5)
+UI_FLOAT(cloudyIntensity,    "Cloudy Glare Intensity",          0.0, 5.0, 0.5)
+UI_FLOAT(rainIntensity,      "Rain Glare Intensity",            0.0, 5.0, 0.5)
+UI_FLOAT(snowIntensity,      "Snow Glare Intensity",            0.0, 5.0, 0.5)
+UI_FLOAT(fogIntensity,       "Fog Glare Intensity",             0.0, 5.0, 0.5)
+UI_FLOAT(sovngardeIntensity, "Sovngarde Glare Intensity",       0.0, 5.0, 0.5)
+UI_FLOAT(dawnguardIntensity, "Dawnguard Glare Intensity",       0.0, 5.0, 0.5)
+UI_FLOAT(blackreachIntensity,"Blackreach Glare Intensity",      0.0, 5.0, 0.5)
 UI_WHITESPACE(2)
 #define UI_CATEGORY Glare1
 UI_SEPARATOR
@@ -210,6 +218,153 @@ UI_FLOAT3(sSpriteColor20,     "Color",                           1.0, 1.0, 1.0)
 // Functions                                        //
 //==================================================//
 
+#define NUM_WEATHERS            8
+
+// Clear
+// Weather 1
+#define CLEAR_WEATHERS_START    1
+#define CLEAR_WEATHERS_END      2
+#define CLEAR_NUM               1
+
+// Cloudy
+// Weather 2
+#define CLOUDY_WEATHERS_START   3
+#define CLOUDY_WEATHERS_END     4
+#define CLOUDY_NUM              2
+
+// Rain
+// Weather 3
+#define RAIN_WEATHERS_START     5
+#define RAIN_WEATHERS_END       6
+#define RAIN_NUM                3
+
+// Snow
+// Weather 4
+#define SNOW_WEATHERS_START     7
+#define SNOW_WEATHERS_END       8
+#define SNOW_NUM                4
+
+// Fog
+// Weather 5
+#define FOG_WEATHERS_START      9
+#define FOG_WEATHERS_END        9
+#define FOG_NUM                 5
+
+// Sovngarde 
+// Weather 6
+#define SOVNGARDE_WEATHERS_START    10
+#define SOVNGARDE_WEATHERS_END      10
+#define SOVNGARDE_NUM               6
+
+// Dawnguard
+// Weather 7
+#define DAWNGUARD_WEATHERS_START    11
+#define DAWNGUARD_WEATHERS_END      12
+#define DAWNGUARD_NUM               7
+
+// Solstheim
+// Weather 8
+#define SOLSTHEIM_WEATHERS_START    13
+#define SOLSTHEIM_WEATHERS_END      16
+#define SOLSTHEIM_NUM               8
+
+// Returns Number of current weather group
+int findCurrentWeather()
+{
+    int weatherNum = 0;
+
+    // Clear
+    if(Weather.x >= CLEAR_WEATHERS_START && Weather.x <= CLEAR_WEATHERS_END)
+        weatherNum = 1;
+
+    // Cloudy
+    if(Weather.x >= CLOUDY_WEATHERS_START && Weather.x <= CLOUDY_WEATHERS_END)
+        weatherNum = 2;
+
+    // Rain
+    if(Weather.x >= RAIN_WEATHERS_START && Weather.x <= RAIN_WEATHERS_END)
+        weatherNum = 3;
+
+    // Snow
+    if(Weather.x >= SNOW_WEATHERS_START && Weather.x <= SNOW_WEATHERS_END)
+        weatherNum = 4;
+
+    // Fog
+    if(Weather.x >= FOG_WEATHERS_START && Weather.x <= FOG_WEATHERS_END)
+        weatherNum = 5;
+
+    // Sovngarde
+    if(Weather.x >= SOVNGARDE_WEATHERS_START && Weather.x <= SOVNGARDE_WEATHERS_END)
+        weatherNum = 6;
+
+    // Dawnguard
+    if(Weather.x >= DAWNGUARD_WEATHERS_START && Weather.x <= DAWNGUARD_WEATHERS_END)
+        weatherNum = 7;
+
+    // Blackreach
+    if(Weather.x >= SOLSTHEIM_WEATHERS_START && Weather.x <= SOLSTHEIM_WEATHERS_END)
+        weatherNum = 8;
+
+    return weatherNum;
+}
+
+// Returns Number of Pervious weather group
+int findPrevWeather()
+{
+    int weatherNum = 0;
+
+    // Clear
+    if(Weather.y >= CLEAR_WEATHERS_START && Weather.y <= CLEAR_WEATHERS_END)
+        weatherNum = 1;
+
+    // Cloudy
+    if(Weather.y >= CLOUDY_WEATHERS_START && Weather.y <= CLOUDY_WEATHERS_END)
+        weatherNum = 2;
+
+    // Rain
+    if(Weather.y >= RAIN_WEATHERS_START && Weather.y <= RAIN_WEATHERS_END)
+        weatherNum = 3;
+
+    // Snow
+    if(Weather.y >= SNOW_WEATHERS_START && Weather.y <= SNOW_WEATHERS_END)
+        weatherNum = 4;
+
+    // Fog
+    if(Weather.y >= FOG_WEATHERS_START && Weather.y <= FOG_WEATHERS_END)
+        weatherNum = 5;
+
+    // Sovngarde
+    if(Weather.y >= SOVNGARDE_WEATHERS_START && Weather.y <= SOVNGARDE_WEATHERS_END)
+        weatherNum = 6;
+
+    // Dawnguard
+    if(Weather.y >= DAWNGUARD_WEATHERS_START && Weather.y <= DAWNGUARD_WEATHERS_END)
+        weatherNum = 7;
+
+    // Blackreach
+    if(Weather.y >= SOLSTHEIM_WEATHERS_START && Weather.y <= SOLSTHEIM_WEATHERS_END)
+        weatherNum = 8;
+
+    return weatherNum;
+}
+
+static const float weatherIntensities[NUM_WEATHERS + 1] = // + 1 since we use index 0 as default
+{
+    0.0,
+    clearIntensity,
+    cloudyIntensity,
+    rainIntensity,
+    snowIntensity,
+    fogIntensity,
+    sovngardeIntensity,
+    dawnguardIntensity,
+    blackreachIntensity
+};
+
+#define weatherLerpAuto(array) \
+    lerp(array##[findPrevWeather()], \
+         array##[findCurrentWeather()], \
+         Weather.z)
 
 //==================================================//
 // Pixel Shaders                                    //
@@ -239,6 +394,8 @@ float3	PS_DrawSprite(VS_OUTPUT IN, uniform float Intensity, uniform float3 Sprit
 	         RotationMatrix  = RotationMatrix * 2 - 1;
     float2   FinalCoord      = mul (IN.txcoord.xy - 0.5, RotationMatrix);
 	         FinalCoord     += 0.5;
+
+    float    GlobalIntensity = weatherLerpAuto(weatherIntensities);
 
     float3   Weight          = SpriteColor * LightParameters.w * Intensity * GlobalIntensity;
     float3   Color;
