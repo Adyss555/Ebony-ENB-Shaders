@@ -11,7 +11,8 @@
 //     An ENB Preset by MechanicalPanda and Adyss         //
 //========================================================// 
 
-#define DEBUG_MODE
+// Uncommend to get some debug features
+//#define DEBUG_MODE
 
 //========================================================//
 // Textures                                               //

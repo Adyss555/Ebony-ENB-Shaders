@@ -59,14 +59,14 @@ UI_FLOAT_DNI(sigma,             "| Bloom Sigma",                0.5, 5.0, 1.0)
 #endif
 UI_FLOAT_DNI(bloomIntensity,    "| Bloom Intensity",            0.0, 3.0, 1.0)
 UI_FLOAT_DNI(bloomThreshold,    "| Bloom Threshhold",           0.0, 1.0, 0.1)
-UI_FLOAT_DNI(bloomSensitivity,  "| Bloom Sensitivity",          1.0, 5.0, 1.0)
+UI_FLOAT_DNI(bloomSensitivity,  "| Bloom Sensitivity",          0.1, 5.0, 1.0)
 UI_FLOAT_DNI(bloomSaturation,   "| Bloom Saturation",           0.0, 2.5, 1.0)
 UI_FLOAT3_DNI(bloomTint,        "| Bloom Tint",                 0.5, 0.5, 0.5)
 UI_FLOAT(removeSky,             "| Bloom Sky Masking",          0.0, 1.0, 0.2)
 UI_WHITESPACE(1)
 UI_MESSAGE(2,                   "|----- Soft Bloom -----")
 UI_FLOAT_DNI(sHighlightBias,    "| Soft Bloom Highlight Bias",  0.0, 1.0, 0.2)
-UI_FLOAT_DNI(softRadius,        "| Soft Bloom Radius",          0.2, 2.0, 1.0)
+UI_FLOAT_DNI(softRadius,        "| Soft Bloom Radius",          0.1, 2.0, 1.0)
 UI_FLOAT_DNI(sBloomIntensity,   "| Soft Bloom Intensity",       0.0, 3.0, 1.0)
 UI_FLOAT_DNI(sBloomMixing,      "| Soft Bloom Mixing",          0.0, 1.0, 0.1)
 UI_FLOAT_DNI(sBloomSaturation,  "| Soft Bloom Saturation",      0.0, 2.5, 1.0)
@@ -145,7 +145,7 @@ float3  PS_BlurH(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float texsize
     {
         float weight = getWeight(x);
         kernelSum   += weight;
-        color       += InputTex.Sample(MirrorSampler, IN.txcoord.xy + float2(pixelSize.x * x, 0.0)) * weight;
+        color       += InputTex.Sample(LinearSampler, IN.txcoord.xy + float2(pixelSize.x * x, 0.0)) * weight;
     }
     return color / kernelSum;
 }
@@ -163,7 +163,7 @@ float3  PS_BlurV(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float texsize
     {
         float weight = getWeight(y);
         kernelSum   += weight;
-        color       += InputTex.Sample(MirrorSampler, IN.txcoord.xy + float2(0.0, pixelSize.y * y)) * weight;
+        color       += InputTex.Sample(LinearSampler, IN.txcoord.xy + float2(0.0, pixelSize.y * y)) * weight;
     }
     return color / kernelSum;
 }
@@ -205,7 +205,7 @@ float3  PS_SoftPostpass(VS_OUTPUT IN) : SV_Target
 {
     float2 coord  = IN.txcoord.xy;
     float3 bloom  = RenderTargetRGBA64F.SampleLevel(LinearSampler, coord, 0);
-    float3 sBloom = TextureColor.Sample(LinearSampler, coord);
+    float3 sBloom = pow(TextureColor.Sample(LinearSampler, coord), 2 - softRadius);
 
     return clamp(bloom + (sBloom * sBloomMixing), 0.0, MAXBLOOM);
 }
@@ -240,7 +240,7 @@ float3  PS_Downsample(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float te
     [unroll]
     for( int i = 0; i < 13; i++ )
     {
-        float2 currentUV = IN.txcoord.xy + coords[i] * getPixelSize(texsize) * softRadius;
+        float2 currentUV = IN.txcoord.xy + coords[i] * getPixelSize(texsize);
         color += weights[i] * InputTex.Sample(BorderSampler, currentUV);
     }
 
@@ -266,7 +266,7 @@ float3  PS_Upsample(VS_OUTPUT IN, uniform Texture2D InputTex, uniform float texs
     [unroll]
     for( int i = 0; i < 9; i++ )
     {
-        float2 currentUV = IN.txcoord.xy + coords[i] * getPixelSize(texsize) * softRadius;
+        float2 currentUV = IN.txcoord.xy + coords[i] * getPixelSize(texsize);
         color += weights[i] * InputTex.SampleLevel(LinearSampler, currentUV, 0);
     }
 
