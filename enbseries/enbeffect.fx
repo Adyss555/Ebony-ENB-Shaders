@@ -120,9 +120,9 @@ float ColToneC(float hdrMax, float contrast, float shoulder, float midIn, float 
 }
 
 // General tonemapping operator, p := {contrast,shoulder,b,c}.
-float ColTone(float x, float4 p) 
+float ColTone(float x, float4 p)
 { 
-    float z = pow(x, p.r); 
+    float  z = pow(x, p.r); 
     return z / (pow(z, p.g)*p.b + p.a); 
 }
 

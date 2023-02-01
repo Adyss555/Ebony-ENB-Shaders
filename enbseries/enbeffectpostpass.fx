@@ -26,7 +26,8 @@ Texture2D   RenderTargetR32F;    //R32F 32 bit hdr format with red channel only
 Texture2D   RenderTargetRGB32F;  //32 bit hdr format without alpha
 
 // This tex will be replaced by the ENB plugin
-Texture2D   lut     <string ResourceName="Include/Textures/neutral1k.png"; >;
+// Load Ebony by default even if plugin is missing
+Texture2D   lut     <string ResourceName="Include/Textures/Ebony.png"; >;
 
 //========================================================//
 // Internals                                              //
